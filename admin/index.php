@@ -31,24 +31,20 @@
             <div class="card">
                 <div class="icon">🚍</div>
                 <h3>Total Buses</h3>
-                <p>5</p>
+                <p><?php echo $total_buses; ?></p>
             </div>
             <div class="card">
                 <div class="icon">📅</div>
                 <h3>Total Bookings</h3>
-                <p>35</p>
+                <p><?php echo $total_bookings; ?></p>
             </div>
             <div class="card">
                 <div class="icon">👥</div>
                 <h3>Total Users</h3>
-                <p>120</p>
-            </div>
-            <div class="card">
-                <div class="icon">⚙️</div>
-                <h3>Settings</h3>
-                <p>2</p>
+                <p><?php echo $total_users; ?></p>
             </div>
         </div>
+        
 
         <!-- Booking Table -->
         <div class="table-container">
@@ -119,6 +115,24 @@
                 closeModal();
             }
         }
+
+        function updateCounts() {
+    fetch('database/counts.php')
+        .then(response => response.json())
+        .then(data => {
+            document.querySelector('.cards .card:nth-child(1) p').textContent = data.total_buses;
+            document.querySelector('.cards .card:nth-child(2) p').textContent = data.total_bookings;
+            document.querySelector('.cards .card:nth-child(3) p').textContent = data.total_users;
+        })
+        .catch(error => console.error('Error fetching counts:', error));
+}
+
+// Update counts every 5 seconds
+setInterval(updateCounts, 5000);
+
+// Initial load
+updateCounts();
+
     </script>
 </body>
 </html>
